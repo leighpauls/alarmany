@@ -70,6 +70,9 @@
 	    soc.on('disconnect', function() {
 		console.log("alarm dc'd");
 		var my_alarms = user_alarms[user];
+		if (!my_alarms) {
+		    return;
+		}
 		my_alarms.splice(my_alarms.indexOf(soc), 1);
 		if (my_alarms.length == 0) {
 		    console.log("user " + user + " has no more alarms");
