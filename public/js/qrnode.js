@@ -21,7 +21,7 @@
     socket.on('ready', function() {
 
 	socket.on('trigger_node_alarm', function (data) {
-	    last_url = window.location.origin 
+	    last_url = window.location.protocol + '//' + window.location.hostname
 		+ '/scan/' + data.sequence_id + '/' + data.element_id
 
 	    $('#qrcodeTable').qrcode({

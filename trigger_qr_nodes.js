@@ -87,7 +87,7 @@
 	    return;
 	}
 	
-	var sequence_id = Math.floor(Math.random() * 10000000);
+	var sequence_id = Math.floor(Math.random() * 1000);
 	var new_sequence = [];
 	active_sequences[sequence_id] = {
 	    elements: new_sequence,
@@ -101,7 +101,7 @@
 
 	// add the sequence entries
 	for (var i = 0; i < my_qr_nodes.length; ++i) {
-	    var element_id = Math.floor(Math.random() * 10000000);
+	    var element_id = Math.floor(Math.random() * 1000);
 	    var curSoc = my_qr_nodes[i].socket;
 	    var curName = my_qr_nodes[i].node_name;
 	    
