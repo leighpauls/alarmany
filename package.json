@@ -1,0 +1,11 @@
+{
+    "name": "Alarmany",
+    "description": "The alarm which forces you to walk around your house",
+    "version": "0.0.1",
+    "dependencies": {
+	"express": "3.x",
+	"mongodb": "1.x",
+	"socket.io": "0.9.x",
+	"cron": "1.x"
+    }
+}
