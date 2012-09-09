@@ -20,6 +20,12 @@
 	res.send('Scanned!');
     });
 
-    server.listen(8080);
-    console.log('listening on port 8080');
+    if (process.env.app_port) {
+	server.listen(process.env.app_port);
+	console.log('listening on port ' + process.env.app_port);
+    } else {
+	server.listen(8080);
+	console.log('listening on port 8080');
+    }
+
 })();
