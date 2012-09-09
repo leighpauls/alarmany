@@ -4,9 +4,11 @@
     var active_users = [];
 
     function dismiss_user_alarms(user, name) {
+	console.log('alarm list:');
+	console.log(user_alarms);
 	var alarm_list = user_alarms[user];
 	if (!alarm_list) {
-	    console.log('trying to dismiss alarms for a user with no alarms');
+	    console.log('trying to dismiss alarms for a user with no alarms, user: ' + user);
 	    return;
 	}
 	for (var i = 0; i < alarm_list.length; ++i) {
@@ -20,7 +22,7 @@
     function config_trigger_alarm(alarms, qr_trigger) {
 	console.log('initing trigger cron');
 	var CronJob = require('cron').CronJob;
-	new CronJob('0,10,20,30,40,50 * * * * *', function(){
+	new CronJob('* * * * * *', function(){
 	    var time = (new Date()).getTime();
 	    var stream = alarms.find({ time: { $lte: time } }).streamRecords();
 

@@ -13,8 +13,9 @@
 	dismiss_user_func = dismiss_user_cb;
     }
 
-    function end_sequence(sequnce_id) {
+    function end_sequence(sequence_id) {
 	var seq = active_sequences[sequence_id];
+	console.log('ending sequence');
 	if (!seq) {
 	    console.log('trying to end a non-active sequence');
 	    return;
@@ -26,9 +27,8 @@
 	    }
 	}
 	// stop the alarms
-	dissmiss_user_func(seq.alarm_user, seq.alarm_name);
+	dismiss_user_func(seq.user, seq.name);
     }
-
 
 
     function attempt_qr_scan(sequence_id, element_id) {
@@ -37,7 +37,7 @@
 	    console.log('trying to scan from a non-existance sequence');
 	}
 	var next_node;
-	for (next_node = seq.cur_node; next_node < seq.elements.length; ++next_node) {
+	for (next_node = seq.cur_node + 1; next_node < seq.elements.length; ++next_node) {
 	    if (seq.elements[next_node].connected) {
 		break;
 	    }
@@ -52,7 +52,7 @@
 		});
 	    }
 	    // remove the disconnect listener and pop the element
-	    seq.elements[seq.cur_node].soc.removeListener('disconnect', seq[0].disc_function);
+	    seq.elements[seq.cur_node].soc.removeListener('disconnect', seq.elements[seq.cur_node].disc_function);
 	} else {
 	    // at the wrong node
 	    // find the node I'm at

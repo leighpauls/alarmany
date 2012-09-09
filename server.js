@@ -2,17 +2,22 @@
 
 (function() {
     var express = require('express');
-    var alarm_config = require('./config_alarm');
     var app = express();
     var server = require('http').createServer(app);
 
-    alarm_config.init_config(server);
+    var dispatch = require('./dispatch');
+
+    dispatch.dispatch(server)
 
     app.use('/p', express.static(__dirname + '/public'));
 
-
     app.get('/', function(req, res) {
 	res.redirect('/p/html/index.html');
+    });
+
+    app.get('/scan/:sequence/:element', function (req, res) {
+	dispatch.scan(parseInt(req.params.sequence, 10), parseInt(req.params.element));
+	res.send('Scanned!');
     });
 
     server.listen(8080);
