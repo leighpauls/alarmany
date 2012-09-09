@@ -40,7 +40,9 @@
 	trigger_alarm.config_trigger_alarm(alarms, trigger_qr_nodes.trigger_qr_nodes);
 	trigger_qr_nodes.config_trigger_qr_nodes(trigger_alarm.dismiss_user_alarms);
 
-	var io = require('socket.io').listen(server)
+	var io = require('socket.io').listen(server);
+
+	io.set('log level', 1);
 
 	io.sockets.on('connection', function (socket) {
 	    

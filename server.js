@@ -17,7 +17,7 @@
 
     app.get('/scan/:sequence/:element', function (req, res) {
 	dispatch.scan(parseInt(req.params.sequence, 10), parseInt(req.params.element));
-	res.send('Scanned!');
+	res.send(200, 'Scanned!');
     });
 
     if (process.env.app_port) {

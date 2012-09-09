@@ -1,5 +1,12 @@
 (function() {
 
+    // see if there's a hash, and use that as my name
+    var hash = window.location.hash;
+    var node_name = "unnamed node";
+    if (hash && hash.length > 0) {
+	node_name = hash.substring(1);
+    }
+
     $('#infoDiv').text("Waiting for server connection...");
 
     var socket = io.connect();
@@ -17,8 +24,6 @@
 	    last_url = window.location.origin 
 		+ '/scan/' + data.sequence_id + '/' + data.element_id
 
-	    $('#qrcodeTable').css('display', 'inline');
-
 	    $('#qrcodeTable').qrcode({
 		render: "table",
 		text: last_url
@@ -27,19 +32,26 @@
 	});
 
 	socket.on('next_node', function (data) {
-	    $('#qrcodeTable').css('display', 'none');
 	    $('#qrcodeTable').html("");
-	    $('#infoDiv').text("go to " + data.node_name);
 	    last_url = null;
 	});
+
+	socket.on('new_dest', function(data) {
+	    if (node_name === data.node_name) {
+		$('#infoDiv').text("Scan this code!");
+	    } else {
+		$('#infoDiv').text("Go to " + data.node_name);
+	    }
+	});
+	    
 
 	socket.on('wrong_node', function (data) {
 	    $('#infoDiv').text("Wrong node, go to " + data.node_name);
 	});
 
 	socket.on('alarm_done', function () {
-	    $('#qrcodeTable').css('display', 'none');
-	    $('#infoDiv').text("Waiting for alarm to go off");
+	    $('#qrcodeTable').html("");
+	    $('#infoDiv').text("Alarm is deactivated");
 	});
 
 	$('#infoDiv').text("Waiting for alarm to go off");
@@ -47,9 +59,8 @@
 
 	socket.emit('attach_qr_node', {
 	    user: 'leigh',
-	    node_name: 'leigh macbook air'
+	    node_name: node_name
 	});
-
     });
 
     socket.emit('identify_type', { 'qr_node': true });

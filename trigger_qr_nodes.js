@@ -30,6 +30,15 @@
 	dismiss_user_func(seq.user, seq.name);
     }
 
+    function send_dest_to_nodes(node_list, dest_name) {
+	for (var i = 0; i < node_list.length; ++i) {
+	    if (node_list[i].connected) {
+		node_list[i].soc.emit('new_dest', {
+		    node_name: dest_name
+		});
+	    }
+	}
+    }
 
     function attempt_qr_scan(sequence_id, element_id) {
 	var seq = active_sequences[sequence_id];
@@ -42,17 +51,20 @@
 		break;
 	    }
 	}
+	console.log('next node is #' + next_node);
+	console.log('len is ' + seq.elements.length);
 	if (seq.elements[seq.cur_node].element_id === element_id) {
 	    if (seq.elements.length === next_node) {
 		end_sequence(sequence_id);
 	    } else {
 		// tell the user where to go next
-		seq.elements[seq.cur_node].soc.emit('next_node', {
-		    node_name: seq.elements[next_node].name
-		});
+		send_dest_to_nodes(seq.elements, seq.elements[next_node].name);
+		seq.elements[seq.cur_node].soc.emit('next_node', {});
 	    }
-	    // remove the disconnect listener and pop the element
+	    // remove the disconnect listener
 	    seq.elements[seq.cur_node].soc.removeListener('disconnect', seq.elements[seq.cur_node].disc_function);
+	    // go to the next node
+	    seq.cur_node = next_node;
 	} else {
 	    // at the wrong node
 	    // find the node I'm at
@@ -75,7 +87,7 @@
 	    return;
 	}
 	
-	var sequence_id = Math.floor(Math.random() * 1000000000000000);
+	var sequence_id = Math.floor(Math.random() * 10000000);
 	var new_sequence = [];
 	active_sequences[sequence_id] = {
 	    elements: new_sequence,
@@ -85,14 +97,17 @@
 	    cur_node: 0
 	};
 
+	console.log('number of qr nodes to push: ' + my_qr_nodes.length);
+
 	// add the sequence entries
 	for (var i = 0; i < my_qr_nodes.length; ++i) {
-	    var element_id = Math.floor(Math.random() * 1000000000000000);
+	    var element_id = Math.floor(Math.random() * 10000000);
 	    var curSoc = my_qr_nodes[i].socket;
 	    var curName = my_qr_nodes[i].node_name;
 	    
 	    var disc_function = (function (seq, seq_id, idx) {
 		return function() {
+		    console.log('qr node disconnected');
 		    seq[idx].connected = false;
 		    seq.splice(idx, 1);
 		    if (seq.length === 0) {
@@ -117,6 +132,16 @@
 		sequence_id: sequence_id
 	    });
 	}
+
+	// shuffle the nodes
+	for (var i = 0; i < new_sequence.length; ++i) {
+	    var j = Math.floor(Math.random() * new_sequence.length);
+	    var temp = new_sequence[j];
+	    new_sequence[j] = new_sequence[i];
+	    new_sequence[i] = temp;
+	}
+
+	send_dest_to_nodes(new_sequence, new_sequence[0].name);
     }
 
     function add_qr_node_connection(soc) {
@@ -128,7 +153,8 @@
 		console.log('tried to attach qr node to no user or node name');
 		return;
 	    }
-	    if (!(user in active_users)) {
+	    if (active_users.indexOf(user) < 0) {
+		console.log('user ' + user + ' is new');
 		active_users.push(user);
 		user_qr_nodes[user] = [];
 	    }
@@ -148,7 +174,7 @@
 		// this should be removed from the sequence
 
 		var my_qr_nodes = user_qr_nodes[user];
-		my_qr_nodes.splice(my_qr_codes.indexOf(node_entry), 1);
+		my_qr_nodes.splice(my_qr_nodes.indexOf(node_entry), 1);
 		if (my_qr_nodes.length === 0) {
 		    console.log('user ' + user + ' has no more qr nodes');
 		    // remove the user
