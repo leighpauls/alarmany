@@ -1,6 +1,8 @@
 
 (function() {
 
+    $('#alarmAudio').get(0).pause();
+
     var socket = io.connect();
     var alarms_sounding = [];
 
@@ -17,6 +19,10 @@
 		if (alarms_sounding.indexOf(alarm_name) < 0) {
 		    alarms_sounding.push(data.alarm_name);
 		    $('#alarmsSounding').text(alarms_sounding.join(', '))
+		}
+
+		if (alarms_sounding.length > 0) {
+		    $('#alarmAudio').get(0).play();
 		}
 		
 	    } else {
@@ -37,6 +43,10 @@
 		    $('#alarmsSounding').text(alarms_sounding.join(', '))
 		}
 		
+		if (alarms_sounding.length === 0) {
+		    $('#alarmAudio').get(0).pause();
+		}
+
 	    } else {
 		console.log("Tried to dismiss an alarm without name or user");
 	    }

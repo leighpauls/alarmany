@@ -21,14 +21,13 @@
     socket.on('ready', function() {
 
 	socket.on('trigger_node_alarm', function (data) {
-	    last_url = window.location.protocol + '//' + window.location.hostname
+	    last_url = window.location.protocol + '//' + window.location.host
 		+ '/scan/' + data.sequence_id + '/' + data.element_id
 
 	    $('#qrcodeTable').qrcode({
 		render: "table",
 		text: last_url
 	    });
-	    $('#infoDiv').text("Waiting for scan");
 	});
 
 	socket.on('next_node', function (data) {
@@ -54,7 +53,7 @@
 	    $('#infoDiv').text("Alarm is deactivated");
 	});
 
-	$('#infoDiv').text("Waiting for alarm to go off");
+	$('#infoDiv').text("Waiting for alarm to sound");
 
 
 	socket.emit('attach_qr_node', {
