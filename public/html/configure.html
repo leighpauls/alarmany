@@ -3,7 +3,12 @@
   <body>
 
     <button id="addButton">Add Alarm</button>
-    
+    <span width="5"></span>
+    Current Time Plus:
+    <input type="number" id="hourOffset" min="0"  value="0" /> Hours, 
+    <input type="number" id="minuteOffset" min="0" value="0" /> Minutes, 
+    <input type="number" id="secondOffset" min="0" value="0" /> Seconds
+
     <script src="/p/js/jquery-1.8.1.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/p/js/configure.js"></script>
