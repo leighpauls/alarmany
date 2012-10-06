@@ -23,21 +23,15 @@
 	socket.on('trigger_node_alarm', function (data) {
 	    last_url = window.location.protocol + '//' + window.location.host
 		+ '/scan/' + data.sequence_id + '/' + data.element_id
-
-	    $('#qrcodeTable').qrcode({
-		render: "table",
-		text: last_url
-	    });
 	});
 
 	socket.on('next_node', function (data) {
-	    $('#qrcodeTable').html("");
 	    last_url = null;
 	});
 
 	socket.on('new_dest', function(data) {
 	    if (node_name === data.node_name) {
-		$('#infoDiv').text("Scan this code!");
+		$('#infoDiv').text("Hit this button!");
 	    } else {
 		$('#infoDiv').text("Go to " + data.node_name);
 	    }
@@ -49,7 +43,6 @@
 	});
 
 	socket.on('alarm_done', function () {
-	    $('#qrcodeTable').html("");
 	    $('#infoDiv').text("Alarm is deactivated");
 	});
 
