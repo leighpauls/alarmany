@@ -53,7 +53,7 @@
 	}
 	console.log('next node is #' + next_node);
 	console.log('len is ' + seq.elements.length);
-	if (seq.elements[seq.cur_node].element_id === element_id) {
+	if (seq.elements[seq.cur_node] && seq.elements[seq.cur_node].element_id === element_id) {
 	    if (seq.elements.length === next_node) {
 		end_sequence(sequence_id);
 	    } else {
