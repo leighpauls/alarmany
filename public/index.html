@@ -22,19 +22,16 @@
     </div>
 
     <script>
-      $.get("/p/widgets/navbar.html", function(data) {
-        $("#top-bar-container").html(data);
-      });
+      function load_widget(url, obj) {
+        $.get(url, function(data) {
+          obj.html(data);
+        });
+      }
 
-      $.get("/p/widgets/user_controls.html", function(data) {
-        $("#first-user-controls").html(data);
-      });
-      $.get("/p/widgets/new_user_button.html", function(data) {
-        $("#first-new-user-button").html(data);
-      });
-      $.get("/p/widgets/user_login.html", function(data) {
-        $("#first-user-login").html(data);
-      });
+      load_widget("/p/widgets/navbar.html", $("#top-bar-container"));
+      load_widget("/p/widgets/user_controls.html", $("#first-user-controls"));
+      load_widget("/p/widgets/new_user_button.html", $("#first-new-user-button"));
+      load_widget("/p/widgets/user_login.html", $("#first-user-login"));
       
     </script>
     <script src="js/bootstrap.min.js"></script>
