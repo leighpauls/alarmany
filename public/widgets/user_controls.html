@@ -3,29 +3,21 @@
   <div class="span12" style="margin-bottom: 5px;">
     Alarms for leigh.pauls@gmail.com:
     <span class="pull-right">
-      <div class="btn btn-small btn-primary">edit user info</div> <div class="btn btn-small">sign out</div>
+      <div class="btn btn-small btn-primary">edit user info</div>
+      <div class="btn btn-small">sign out</div>
     </span>
   </div>
 </div>
 <div class="row">
   <!-- User control row -->
   <div id="CTX-wake-up-node-cont"></div>
-
-  <div class="span5">
-    <div class="well">
-      Alarm configuration form here
-    </div>
-  </div>
-
-  <div class="span4">
-    <div class="well">
-      Alarm queue here
-    </div>
-  </div>
+  <div id="CTX-alarm-config"></div>
+  <div id="CTX-alarm-queue"></div>
 
   <script type="text/javascript">
     load_widget("/p/widgets/wake_up_node.html", $("#CTX-wake-up-node-cont"), "wake_up");
-    
+    load_widget("/p/widgets/alarm_config.html", $("#CTX-alarm-config"), "alarm_config");
+    load_widget("/p/widgets/alarm_queue.html", $("#CTX-alarm-queue"), "alarm_queue");
   </script>
 
 </div>
