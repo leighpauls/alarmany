@@ -8,43 +8,15 @@
   </head>
   <body>
 
-    <script src="js/jquery-1.8.2.js"></script>
-    <script>
-      // TODO: replace this hack with a real build process
-      g_ctx_name = "ctx";
-      function load_widget(url, obj, ctx_name) {
-        $.get(url, function(data) {
-          last_ctx = g_ctx_name;
-          g_ctx_name = g_ctx_name + "__" + ctx_name;
-
-          fixed_data = data.replace(/CTX/g, g_ctx_name);
-
-          obj.html(fixed_data);
-
-          g_ctx_name = last_ctx;
-        });
-      }
-    </script>
+    <script src="/p/js/jquery-1.8.2.js"></script>
+    <script src="/p/js/widgets.js"></script>
 
     <div id="top-bar-container"></div>
 
-    <div class="container">
-      <div id="first-user-controls"></div>
+    <div class="container" id="main-container"></div>
 
-      <div id="first-new-user-button"></div>
+    <script type="text/javascript" src="/p/js/page_init.js"></script>
 
-      <div id="first-user-login"></div>
-
-    </div>
-
-    <script type="text/javascript">
-
-      load_widget("/p/widgets/navbar.html", $("#top-bar-container"), "top_contaner");
-      load_widget("/p/widgets/user_controls.html", $("#first-user-controls"), "first_user_controls");
-      load_widget("/p/widgets/new_user_button.html", $("#first-new-user-button"), "new_user_button");
-      load_widget("/p/widgets/user_login.html", $("#first-user-login"), "user_login_form");
-      
-    </script>
     <script src="js/bootstrap.min.js"></script>
 
   </body>

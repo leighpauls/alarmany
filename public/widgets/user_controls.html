@@ -15,9 +15,9 @@
   <div id="CTX-alarm-queue"></div>
 
   <script type="text/javascript">
-    load_widget("/p/widgets/wake_up_node.html", $("#CTX-wake-up-node-cont"), "wake_up");
-    load_widget("/p/widgets/alarm_config.html", $("#CTX-alarm-config"), "alarm_config");
-    load_widget("/p/widgets/alarm_queue.html", $("#CTX-alarm-queue"), "alarm_queue");
+    loaders.wake_up_node($("#CTX-wake-up-node-cont"));
+    loaders.alarm_config($("#CTX-alarm-config"));
+    loaders.alarm_queue($("#CTX-alarm-queue"));
   </script>
 
 </div>
