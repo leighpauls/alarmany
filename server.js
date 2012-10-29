@@ -5,14 +5,18 @@
     var app = express();
     var server = require('http').createServer(app);
 
-    var dispatch = require('./dispatch');
 
-    dispatch.dispatch(server)
+    var io = require('socket.io').listen(server);
+
+    io.of('/io_login')
+	.on('connection', require('./iohandlers/login').handle_login);
+    io.of('/io_connected')
+	.on('connection', require('./iohandlers/connected').handle_connected);
 
     app.use('/p', express.static(__dirname + '/public'));
 
     app.get('/', function(req, res) {
-	res.redirect('/p/html/index.html');
+	res.redirect('/p/index.html');
     });
 
     app.get('/scan/:sequence/:element', function (req, res) {
