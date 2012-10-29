@@ -20,8 +20,14 @@ var loaders = {};
 	});
     }
 
+    function load_includes(url) {
+	$.get(url, function(data) {
+	    $(document.body).append($(data));
+	});
+    }
+
     var g_next_widget_id = 1;
-    function make_loader(widget_class) {
+    function make_loader(widget_class, has_includes) {
 	loaders[widget_class] = function(parent, cb) {
 	    var ctx_name = widget_class + '' + g_next_widget_id;
 	    g_next_widget_id += 1;
@@ -36,7 +42,7 @@ var loaders = {};
     make_loader("new_user_button");
     make_loader("time_alarm_config");
     make_loader("user_controls");
-    make_loader("user_login");
+    make_loader("user_login", true);
     make_loader("wake_up_node");
 
 })();
