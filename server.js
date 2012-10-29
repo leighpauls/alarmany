@@ -8,6 +8,8 @@
 
     var io = require('socket.io').listen(server);
 
+    io.set('log level', 2);
+
     io.of('/io_login')
 	.on('connection', require('./iohandlers/login').handle_login);
     io.of('/io_connected')
