@@ -24,7 +24,6 @@ function deps_cb(cb) {
 		throw "Tried to add a dep while enabled";
 	    }
 	    return function() {
-		console.log("dep resolved");
 		if (!self_resolved) {
 		    self_resolved = true;
 		    --deps_left;
@@ -39,7 +38,6 @@ function deps_cb(cb) {
 	enable: function() {
 	    enabled = true;
 	    if (deps_left === 0) {
-		console.log("immediate callback");
 		cb(last_args);
 	    }
 	}
