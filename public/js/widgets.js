@@ -24,7 +24,7 @@ var loaders = {};
     make_loader("nap_config");
     make_loader("navbar");
     make_loader("new_user_button");
-    make_loader("time_alarm_config");
+    make_loader("time_alarm_config", time_alarm_config_loader);
     make_loader("user_controls", user_controls_loader);
     make_loader("user_login");
     make_loader("wake_up_node");
