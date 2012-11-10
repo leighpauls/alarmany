@@ -1,5 +1,6 @@
 function init_user_controls(node, email) {
     node.find('.alm-email-space').text(email);
+    init_alarm_config(node.find('.alm-alarm-config'), email);
 }
 
 function user_controls_loader(node, instance_cb) {

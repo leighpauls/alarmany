@@ -14,6 +14,4 @@
     $("#main-container")
 	.append(controls_container)
 	.append(login_container)
-    
-
 })();
