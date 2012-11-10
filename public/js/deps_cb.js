@@ -1,18 +1,11 @@
 // a generator of multi-dependency callbacks
 function deps_cb(cb) {
-    if (!cb) {
-	return { add_dep: function() {}, enable: function() {} };
-    }
-
     var enabled = false;
     var deps_left = 0;
-    var last_args = [];
 
-    function try_cb() {
+    var try_cb = function() {
 	if (enabled) {
-	    cb.apply(arguments);
-	} else {
-	    last_args = arguments;
+	    cb();
 	}
     }
 
@@ -26,9 +19,9 @@ function deps_cb(cb) {
 	    return function() {
 		if (!self_resolved) {
 		    self_resolved = true;
-		    --deps_left;
+		    deps_left--;
 		    if (deps_left === 0) {
-			try_cb.apply(null, arguments);
+			try_cb();
 		    }
 		} else {
 		    throw "Tried to resolve a single dep more than once"
@@ -36,10 +29,10 @@ function deps_cb(cb) {
 	    }
 	},
 	enable: function() {
-	    enabled = true;
 	    if (deps_left === 0) {
 		cb(last_args);
 	    }
+	    enabled = true;
 	}
     };
 }
