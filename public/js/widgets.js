@@ -26,7 +26,8 @@ var loaders = {};
     make_loader("new_user_button");
     make_loader("time_alarm_config", time_alarm_config_loader);
     make_loader("user_controls", user_controls_loader);
-    make_loader("user_login");
+    make_loader("user_login", user_login_loader);
     make_loader("wake_up_node");
+    make_loader("user_sign_up");
 
 })();

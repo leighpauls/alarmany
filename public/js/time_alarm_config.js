@@ -1,5 +1,5 @@
 function time_alarm_config_loader(node, instance_cb) {
-    var random_radio_name = 'radio_group_' + Math.random();
+    var random_radio_name = 'radio_group_' + rand_int();
     node.find('.alm-time-alarm-radio').attr('name', random_radio_name);
     
     instance_cb(node);
@@ -8,7 +8,7 @@ function time_alarm_config_loader(node, instance_cb) {
 function init_time_alarm_config(node, user_email, hide_window_cb) {
     // TODO: login token
     var soc = io.connect('/io_time_alarm');
-    var alarm_id = Math.random();
+    var alarm_id = rand_int();
     
     soc.on('time-alarm-single-failure', function(data) {
 	if (data.alarm_id === alarm_id) {

@@ -18,7 +18,12 @@
 
 	mongo_db.open(check_err(function(db) {
 	    db.collection('alarms', check_err(function(alarms) {
-		callback(alarms);
+		db.collection('users', check_err(function(users) {
+		    callback({
+			alarms: alarms,
+			users: users
+		    });
+		}))
 	    }));
 	}));
     }
