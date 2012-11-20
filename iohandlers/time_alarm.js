@@ -1,9 +1,8 @@
 (function() {
-    function handle_time_alarm(soc, alarm_database) {
+    function handle_time_alarm(soc, alarm_database, user_database) {
 	console.log("handling time alarm");
 	soc.on('time-alarm-config-attempt-single', function(data) {
 	    console.log('time alarm attempt');
-	    // TODO: auth token
 	    // TODO: verify the data
 
 	    var on_success = function() {
@@ -11,7 +10,6 @@
 		    alarm_id: data.alarm_id
 		});
 	    };
-
 	    var on_failure = function(err) {
 		soc.emit('time-alarm-single-failure', {
 		    alarm_id: data.alarm_id,
@@ -19,11 +17,18 @@
 		});
 	    };
 
-	    alarm_database.insert_single_alarm(
-		data.user, 
-		data.alarm_name,
-		data.time_stamp,
-		on_success,
+	    user_database.verify_login_token(
+		data.user,
+		data.login_token,
+		function() {
+		    alarm_database.insert_single_alarm(
+			data.user, 
+			data.alarm_name,
+			data.time_stamp,
+			on_success,
+			on_failure
+		    );
+		},
 		on_failure
 	    );
 	});

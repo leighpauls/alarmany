@@ -35,7 +35,7 @@
 
 	io.of('/io_time_alarm')
 	    .on('connection', function(soc) {
-		time_alarm.handle_time_alarm(soc, alarm_database);
+		time_alarm.handle_time_alarm(soc, alarm_database, user_database);
 	    });
 
 	io.of('/io_sign_up')

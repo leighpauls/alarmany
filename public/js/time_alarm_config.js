@@ -9,6 +9,7 @@ function init_time_alarm_config(node, user_email, hide_window_cb) {
     // TODO: login token
     var soc = io.connect('/io_time_alarm');
     var alarm_id = rand_int();
+    var login_token = find_login_token(user_email);
     
     soc.on('time-alarm-single-failure', function(data) {
 	if (data.alarm_id === alarm_id) {
@@ -36,8 +37,8 @@ function init_time_alarm_config(node, user_email, hide_window_cb) {
 		// TODO: add a name feature
 		name: 'Some Single Shot Alarm',
 		user: user_email,
-		alarm_id: alarm_id
-		// TODO: auth token
+		alarm_id: alarm_id,
+		login_token: login_token
 	    });
 	}
     });

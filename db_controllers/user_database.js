@@ -60,6 +60,20 @@
 			on_success(login_token);
 		    }
 		});
+	    },
+	    verify_login_token: function(email, login_token, success_cb, failure_cb) {
+		users.findOne({ email: email }, function (err, doc) {
+		    if (err) {
+			console.log(err);
+			failure_cb("Couldn't find user's record");
+		    } else {
+			if (doc.browser_tokens.indexOf(login_token) >= 0) {
+			    success_cb();
+			} else {
+			    failure_cb("Invalid login token");
+			}
+		    }
+		});
 	    }
 	};
     }
