@@ -5,6 +5,32 @@ function time_alarm_config_loader(node, instance_cb) {
     instance_cb(node);
 }
 
+function get_today_tomorrow_timestamp(hour, minute, am_pm) {
+    hour = hour % 12;
+    if (am_pm == 'PM') {
+	hour += 12;
+    }
+    var cur_time = new Date();
+    
+    var roll_around = false;
+    if (hour < cur_time.getHours()) {
+	roll_around = true;
+    } else if (hour == cur_time.getHours()) {
+	if (minute < cut_time.getMinutes()) {
+	    roll_around = true;
+	}
+    }
+
+    cur_time.setHours(hour);
+    cur_time.setMinutes(minute);
+
+    var timestamp = cur_time.getTime();
+    if (roll_around) {
+	timestamp += 24 * 60 * 60 * 1000;
+    }
+    return timestamp;
+}
+
 function init_time_alarm_config(node, user_email, hide_window_cb) {
     // TODO: login token
     var soc = io.connect('/io_time_alarm');
@@ -29,11 +55,17 @@ function init_time_alarm_config(node, user_email, hide_window_cb) {
 	var hour = parseInt(node.find('.alm-time-hour').val());
 	var minute = parseInt(node.find('.alm-time-minute').val());
 	var am_pm = node.find('.alm-am-pm-type').val();
+
+	if (isNaN(hour) || isNaN(minute)) {
+	    console.log("TODO: hour/minute NaN");
+	    return;
+	}
+
 	if (node.find('.alm-today-tomorrow-radio').attr('checked')) {
 	    soc.emit('time-alarm-config-attempt-single', {
 		type: 'time-alarm-single',
 		// TODO: actually calculate this
-		fire_time: 0,
+		fire_time: get_today_tomorrow_timestamp(hour, minute, am_pm),
 		// TODO: add a name feature
 		name: 'Some Single Shot Alarm',
 		user: user_email,

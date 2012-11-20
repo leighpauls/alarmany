@@ -24,7 +24,7 @@
 		    alarm_database.insert_single_alarm(
 			data.user, 
 			data.alarm_name,
-			data.time_stamp,
+			data.fire_time,
 			on_success,
 			on_failure
 		    );
