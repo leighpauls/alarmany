@@ -8,11 +8,14 @@
 
 	var io = require('socket.io').listen(server);
 
+	var user_database = require('./user_database')
+	    .user_database(collections.users);
+
 	io.set('log level', 2);
 
 	io.of('/io_login')
 	    .on('connection', function(soc) {
-		require('./iohandlers/login').handle_login(soc, collections.users);
+		require('./iohandlers/login').handle_login(soc, user_database);
 	    });
 
 	io.of('/io_connected')
@@ -25,7 +28,7 @@
 
 	io.of('/io_sign_up')
 	    .on('connection', function(soc) {
-		require('./iohandlers/sign_up').handle_sign_up(soc, collections.users);
+		require('./iohandlers/sign_up').handle_sign_up(soc, user_database);
 	    });
 
 	app.use('/p', express.static(__dirname + '/public'));
