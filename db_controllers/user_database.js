@@ -1,6 +1,6 @@
 (function() {
 
-    var utils = require('./common/utils');
+    var utils = require('../common/utils');
     var crypto = require('crypto');
 
     function hash_password(password, salt) {
