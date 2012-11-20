@@ -15,6 +15,9 @@ function init_user_login(node, controls_container) {
     };	
 
     soc.on('login-accepted', function(data) {
+	if (data.email && data.login_token) {
+	    add_login_token(data.email, data.login_token);
+	}
 	open_controls_cb(data.email);
     });
 

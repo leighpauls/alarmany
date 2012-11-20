@@ -1,8 +1,9 @@
 function init_user_sign_up(node, open_controls_cb, cancel_sign_up_cb) {
     var soc = io.connect('/io_sign_up');
     soc.on('user-sign-up-success', function(data) {
-	console.log('TODO: save login token:');
-	console.log(data.login_token);
+	if (data.email && data.login_token) {
+	    add_login_token(data.email, data.login_token);
+	}
 
 	open_controls_cb(data.email);
     });
